@@ -1,4 +1,3 @@
-// ✅ ===== هذا هو السطر الذي تم إضافته =====
 import java.util.Properties
 
 plugins {
@@ -29,7 +28,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    // تعطيل NDK لتجنب مشاكل التحميل
     packagingOptions {
         jniLibs {
             useLegacyPackaging = false
@@ -48,10 +46,22 @@ android {
         versionName = flutterVersionName ?: "1.0"
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "my-key-alias"
+            keyPassword = "123123"
+            storeFile = file("my-release-key.jks")
+            storePassword = "123123"
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
-        }
+    signingConfig = signingConfigs.getByName("release")
+    isMinifyEnabled = false
+    isShrinkResources = false
+}
+
     }
 }
 
